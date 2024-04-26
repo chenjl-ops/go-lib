@@ -8,86 +8,8 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"github.com/pkg/errors"
-	"os"
 	"strings"
 )
-
-const (
-	runEnvKey    = "RUNTIME_ENV"
-	runGroupKey  = "RUNTIME_GROUP"
-	runTenantKey = "RUNTIME_TENANT"
-	// runGROUPIdKey = "RUNTIME_GROUPID"
-	appNameKey = "RUNTIME_APP_NAME"
-)
-
-//var Config *Specification
-
-// GetEnv 获取当前运行环境
-func GetEnv(name string) string {
-	var env string
-	if name != "" {
-		env = name
-	} else {
-		env = os.Getenv(runEnvKey)
-	}
-	return env
-}
-
-// GetAppName 获取当前运行应用名称
-func GetAppName(name string) string {
-	var appName string
-	if name != "" {
-		appName = name
-	} else {
-		appName = os.Getenv(appNameKey)
-	}
-	return appName
-}
-
-// GetGroup 获取当前group
-func GetGroup(name string) string {
-	var groupName string
-	if name != "" {
-		groupName = name
-	} else {
-		groupName = os.Getenv(runGroupKey)
-		if groupName == "" {
-			groupName = "DEFAULT_GROUP"
-		}
-	}
-	return groupName
-}
-
-// GetTenant 获取当前namespace
-func GetTenant(name string) string {
-	var tenant string
-	if name != "" {
-		tenant = name
-	} else {
-		tenant = os.Getenv(runTenantKey)
-		if tenant == "" {
-			tenant = "public"
-		}
-	}
-	return tenant
-}
-
-// GetNacosPath 获取nacos路径
-func GetNacosPath(path string) string {
-	if path != "" {
-		return fmt.Sprintf(path)
-	}
-	return fmt.Sprintf("/data/nacos")
-}
-
-func GetNacosUrl(url string) string {
-	//url := fmt.Sprintf("http://configserver-%s.xxx.cloud", env)
-	//url := fmt.Sprintf("http://kyc-prod-1-b349198798d93d66.elb.ap-southeast-1.amazonaws.com:8848/data/nacos")
-	if url != "" {
-		return url
-	}
-	return fmt.Sprintf("http://kyc-prod-1-b349198798d93d66.elb.ap-southeast-1.amazonaws.com")
-}
 
 func NewNacos() (nacos *Nacos, err error) {
 	appName := GetAppName("")
@@ -116,6 +38,7 @@ func NewNacos() (nacos *Nacos, err error) {
 		Group:    group,
 		DataId:   appName,
 		Url:      nacosUrl,
+		Port:     8848,
 		Path:     path,
 		LogDir:   "/tmp/nacos/log",
 		CacheDir: "/tmp/nacos/cache",
@@ -125,7 +48,7 @@ func NewNacos() (nacos *Nacos, err error) {
 }
 
 func (nacos *Nacos) GetNacosConfigs() (nacosClient *constant.ClientConfig, nacosServer *constant.ServerConfig, err error) {
-	nacosServerConfigs := *constant.NewServerConfig(nacos.Url, 8848, constant.WithContextPath(nacos.Path))
+	nacosServerConfigs := *constant.NewServerConfig(nacos.Url, nacos.Port, constant.WithContextPath(nacos.Path))
 
 	nacosClientConfigs := *constant.NewClientConfig(
 		constant.WithNamespaceId(""),
@@ -153,17 +76,26 @@ func (nacos *Nacos) NewNacosBySdk() (iClient config_client.IConfigClient, err er
 	)
 }
 
-func ReadRemoteConfig(data any) error {
-	return ReadRemoteConfigCustom(nil, data)
+func ReadRemoteConfig(input *Nacos, data any) error {
+	return ReadRemoteConfigCustom(input, data)
 }
 
-func ReadRemoteConfigCustom(input *Nacos, v any) error {
+func ReadRemoteConfigCustom(input *Nacos, value any) error {
 	config, err := NewNacos()
 	if err != nil {
 		return err
 	}
 
 	if input != nil {
+		if input.Url != "" {
+			config.Url = input.Url
+		}
+		if input.Port != 0 {
+			config.Port = input.Port
+		}
+		if input.Path != "" {
+			config.Path = input.Path
+		}
 		if input.LogDir != "" {
 			config.LogDir = input.LogDir
 		}
@@ -211,8 +143,8 @@ func ReadRemoteConfigCustom(input *Nacos, v any) error {
 	}
 	//fmt.Println("nacos Data: ", content)
 
-	err = json.Unmarshal([]byte(content), v)
-	//fmt.Println("unmarshal done data: ", Config)
+	err = json.Unmarshal([]byte(content), value)
+	//fmt.Println("unmarshal done data: ", value)
 	if err != nil {
 		fmt.Println(err)
 		return err

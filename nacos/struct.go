@@ -5,6 +5,7 @@ type Nacos struct {
 	CacheDir string
 	LogLevel string
 	Url      string
+	Port     uint64
 	Path     string
 	Tenant   string
 	DataId   string

@@ -2,36 +2,11 @@ package mysql_gorm
 
 import (
 	"fmt"
-	log "github.com/sirupsen/logrus"
-	"go-lib/nacos"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 var Engine *gorm.DB
-
-func NewDB() (*DB, error) {
-	var config Config
-	err := nacos.ReadRemoteConfig(&config)
-	if nil != err {
-		log.Fatal(err)
-	}
-
-	//nacos.Config = Config
-	fmt.Sprintln("start mysql new config: ======")
-	fmt.Sprintln("nacos config: ", config)
-	result := &DB{
-		UserName: config.MysqlUserName,
-		Password: config.MysqlPassword,
-		Port:     config.MysqlPort,
-		DBName:   config.MysqlDBName,
-		Host:     config.MysqlHost,
-		Charset:  config.MysqlCharset,
-	}
-
-	fmt.Sprintln("end get mysql config: ", result)
-	return result, nil
-}
 
 func (db *DB) InitMysql() error {
 	fmt.Sprintln("start init mysql: =========")
