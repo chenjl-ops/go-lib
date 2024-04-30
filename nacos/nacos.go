@@ -76,11 +76,11 @@ func (nacos *Nacos) NewNacosBySdk() (iClient config_client.IConfigClient, err er
 	)
 }
 
-func ReadRemoteConfig(input *Nacos, data any) error {
-	return ReadRemoteConfigCustom(input, data)
+func (nacos *Nacos) ReadRemoteConfig(data any) error {
+	return readRemoteConfigCustom(nacos, data)
 }
 
-func ReadRemoteConfigCustom(input *Nacos, value any) error {
+func readRemoteConfigCustom(input *Nacos, value any) error {
 	config, err := NewNacos()
 	if err != nil {
 		return err
