@@ -9,7 +9,7 @@ import (
 var Engine *gorm.DB
 
 func (db *DB) InitMysql() error {
-	fmt.Sprintln("start init mysql: =========")
+	fmt.Println("start init mysql: =========")
 	newEngine, err := db.NewConnect()
 	if err != nil {
 		return err
@@ -19,9 +19,9 @@ func (db *DB) InitMysql() error {
 }
 
 func (db *DB) NewConnect() (*gorm.DB, error) {
-	fmt.Sprintln("db config: ", db)
+	fmt.Println("db config: ", db)
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local", db.UserName, db.Password, db.Host, db.Port, db.DBName, db.Charset)
-	fmt.Sprintln("mysql connect str: ", dsn)
+	fmt.Println("mysql connect str: ", dsn)
 	gormEngine, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {

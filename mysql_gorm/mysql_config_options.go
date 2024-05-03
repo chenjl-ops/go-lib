@@ -21,7 +21,7 @@ func NewDB(opts ...MysqlConfigOption) (*DB, error) {
 	//	log.Fatal(err)
 	//}
 
-	fmt.Sprintln("start mysql new config: ======")
+	fmt.Println("start mysql new config: ======")
 
 	//nacos.Config = Config
 	//fmt.Sprintln("nacos config: ", config)
@@ -43,13 +43,13 @@ func NewDB(opts ...MysqlConfigOption) (*DB, error) {
 		Charset:  MYSQL_CHARSET,
 	}
 
-	fmt.Sprintln("init mysql config: ", result)
+	fmt.Println("init mysql config: ", result)
 
 	for _, opt := range opts {
 		opt(result)
 	}
 
-	fmt.Sprintln("end get mysql config: ", result)
+	fmt.Println("end get mysql config: ", result)
 
 	return result, nil
 }

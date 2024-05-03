@@ -13,7 +13,7 @@ func Insert(data any) error {
 	result := Engine.Create(data)
 	if result.Error != nil {
 		log.Error("Insert data: ", result.Error)
-		fmt.Sprintln("insert data error: ", result.Error)
+		fmt.Println("insert data error: ", result.Error)
 		return result.Error
 	}
 	return nil
@@ -24,7 +24,7 @@ func ShowAll(data any) error {
 	result := Engine.Find(data)
 	if result.Error != nil {
 		log.Error("Get All Data: ", result.Error)
-		fmt.Sprintln("get all data error: ", result.Error)
+		fmt.Println("get all data error: ", result.Error)
 		return result.Error
 	}
 	return nil
@@ -38,14 +38,14 @@ func ShowSome(data any, requirement string, key string, value string) error {
 			result := Engine.Where(fmt.Sprintf("%s %s ?", key, requirement), fmt.Sprintf("%%%s%%", value)).Find(data)
 			if result.Error != nil {
 				log.Error("Get data: ", result.Error)
-				fmt.Sprintln("get data error: ", result.Error)
+				fmt.Println("get data error: ", result.Error)
 				return result.Error
 			}
 		default:
 			result := Engine.Where(fmt.Sprintf("%s %s ?", key, requirement), value).Find(data)
 			if result.Error != nil {
 				log.Error("Get data: ", result.Error)
-				fmt.Sprintln("get data error: ", result.Error)
+				fmt.Println("get data error: ", result.Error)
 				return result.Error
 			}
 		}
@@ -59,7 +59,7 @@ func Update(m any, updateData map[string]any) error {
 	result := Engine.Model(m).Updates(updateData)
 	if result.Error != nil {
 		log.Error("Update data: ", result.Error)
-		fmt.Sprintln("update data error: ", result.Error)
+		fmt.Println("update data error: ", result.Error)
 		return result.Error
 	}
 	return nil
@@ -69,7 +69,7 @@ func Delete(data any) error {
 	result := Engine.Delete(data)
 	if result.Error != nil {
 		log.Error("Delete data: ", result.Error)
-		fmt.Sprintln("delete data error: ", result.Error)
+		fmt.Println("delete data error: ", result.Error)
 		return result.Error
 	}
 	return nil
