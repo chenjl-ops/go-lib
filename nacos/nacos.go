@@ -143,7 +143,7 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 	}
 	fmt.Println("nacos Data: ", content)
 
-	err = json.Unmarshal([]byte(content), &value)
+	err = json.Unmarshal([]byte(content), value)
 	fmt.Println("unmarshal done data: ", value)
 	if err != nil {
 		fmt.Println(err)
