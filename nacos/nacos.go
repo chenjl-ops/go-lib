@@ -132,8 +132,8 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 		return err
 	}
 
-	//fmt.Println("config: ", config)
-	//fmt.Println("Get Config Start: ===============")
+	fmt.Println("config: ", config)
+	fmt.Println("Get Config Start: ===============")
 	content, err := client.GetConfig(vo.ConfigParam{
 		DataId: config.DataId,
 		Group:  config.Group,
@@ -141,10 +141,10 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 	if err != nil {
 		return err
 	}
-	//fmt.Println("nacos Data: ", content)
+	fmt.Println("nacos Data: ", content)
 
 	err = json.Unmarshal([]byte(content), &value)
-	//fmt.Println("unmarshal done data: ", value)
+	fmt.Println("unmarshal done data: ", value)
 	if err != nil {
 		fmt.Println(err)
 		return err
