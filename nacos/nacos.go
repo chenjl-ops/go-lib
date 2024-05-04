@@ -132,8 +132,8 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 		return err
 	}
 
-	fmt.Println("config: ", config)
-	fmt.Println("Get Config Start: ===============")
+	//fmt.Println("config: ", config)
+	//fmt.Println("Get Config Start: ===============")
 	content, err := client.GetConfig(vo.ConfigParam{
 		DataId: config.DataId,
 		Group:  config.Group,
@@ -141,55 +141,13 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println("nacos Data: ", content)
+	//fmt.Println("nacos Data: ", content)
 
 	err = json.Unmarshal([]byte(content), value)
-	fmt.Println("unmarshal done data: ", value)
+	//fmt.Println("unmarshal done data: ", value)
 	if err != nil {
 		fmt.Println(err)
 		return err
 	}
 	return nil
 }
-
-//func ReadRemoteConfigCustom(input *Nacos) error {
-//	config, err := NewNacos()
-//	if err != nil {
-//		return err
-//	}
-//
-//	if input != nil {
-//		if input.NacosServerUrl != "" {
-//			config.NacosServerUrl = input.NacosServerUrl
-//		}
-//		if input.Group != "" {
-//			config.Group = input.Group
-//		}
-//		if input.DataId != "" {
-//			config.DataId = input.DataId
-//		}
-//		if input.Tenant != "" {
-//			config.Tenant = input.Tenant
-//		}
-//	}
-//	v := viper.New()
-//	v.SetConfigType("prop")
-//	// TODO List
-//	// 1、实现nacos方法。 a.通过三方库 b. 自己注册nacos provider的实现方式
-//	// 参考： https://github.com/yoyofxteam/nacos-viper-remote/tree/main
-//	// 参考： https://github.com/nacos-group/nacos-sdk-go
-//	err = v.AddRemoteProvider("nacos", config.NacosServerUrl, "/v1/cs/configs")
-//	if err != nil {
-//		return err
-//	}
-//	err = v.ReadRemoteConfig()
-//	if err != nil {
-//		return err
-//	}
-//	err = v.Unmarshal(&Config)
-//	if err != nil {
-//		return nil
-//	}
-//	fmt.Printf("nacos data: %+v", Config)
-//	return nil
-//}

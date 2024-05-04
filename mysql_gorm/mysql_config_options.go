@@ -43,13 +43,13 @@ func NewDB(opts ...MysqlConfigOption) (*DB, error) {
 		Charset:  MYSQL_CHARSET,
 	}
 
-	fmt.Println("init mysql config: ", result)
+	//fmt.Println("init mysql config: ", result)
 
 	for _, opt := range opts {
 		opt(result)
 	}
 
-	fmt.Println("end get mysql config: ", result)
+	//fmt.Println("end get mysql config: ", result)
 
 	return result, nil
 }
