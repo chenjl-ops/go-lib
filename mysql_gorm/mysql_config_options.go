@@ -1,9 +1,5 @@
 package mysql_gorm
 
-import (
-	"fmt"
-)
-
 // default mysql config
 const (
 	MYSQL_USERNAME = "root"
@@ -15,25 +11,6 @@ const (
 )
 
 func NewDB(opts ...MysqlConfigOption) (*DB, error) {
-	//var config Config
-	//err := nacos.ReadRemoteConfig(&config)
-	//if nil != err {
-	//	log.Fatal(err)
-	//}
-
-	fmt.Println("start mysql new config: ======")
-
-	//nacos.Config = Config
-	//fmt.Sprintln("nacos config: ", config)
-	//result := &DB{
-	//	UserName: config.MysqlUserName,
-	//	Password: config.MysqlPassword,
-	//	Port:     config.MysqlPort,
-	//	DBName:   config.MysqlDBName,
-	//	Host:     config.MysqlHost,
-	//	Charset:  config.MysqlCharset,
-	//}
-
 	result := &DB{
 		UserName: MYSQL_USERNAME,
 		Password: MYSQL_PASSWORD,

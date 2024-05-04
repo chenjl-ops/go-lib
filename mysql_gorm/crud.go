@@ -55,6 +55,7 @@ func (db *DbServer) ShowSome(data any, requirement string, key string, value str
 	return nil
 }
 
+// Update 根据map更新数据,未验证
 func (db *DbServer) Update(m any, updateData map[string]any) error {
 	result := db.Engine.Model(m).Updates(updateData)
 	if result.Error != nil {
