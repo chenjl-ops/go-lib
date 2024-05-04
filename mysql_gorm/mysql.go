@@ -6,16 +6,15 @@ import (
 	"gorm.io/gorm"
 )
 
-var Engine *gorm.DB
+// NewDbServer ...
+func NewDbServer(conf *DB, engine *gorm.DB) (*DbServer, error) {
+	fmt.Println("start new mysql server: ======")
 
-func (db *DB) InitMysql() error {
-	fmt.Println("start init mysql: =========")
-	newEngine, err := db.NewConnect()
-	if err != nil {
-		return err
+	result := &DbServer{
+		Engine: engine,
+		Config: conf,
 	}
-	Engine = newEngine
-	return nil
+	return result, nil
 }
 
 func (db *DB) NewConnect() (*gorm.DB, error) {
