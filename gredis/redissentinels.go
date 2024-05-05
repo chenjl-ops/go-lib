@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (r *RedisSentinel) NewRedisClient() *redis.Client {
+func (r *RedisSentinel) InitRedisClient() *redis.Client {
 	rdb := redis.NewFailoverClient(&redis.FailoverOptions{
 		SentinelAddrs: r.RedisSentinelAddress,
 		MasterName:    r.RedisMasterName,

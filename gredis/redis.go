@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (r *Redis) NewRedisClient() *redis.Client {
+func (r *Redis) InitRedisClient() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     r.RedisAddress,
 		Password: r.RedisPasswd,

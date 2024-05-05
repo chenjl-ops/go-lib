@@ -2,7 +2,7 @@ package gredis
 
 const redisDefaultsPasswd = "redis"
 
-func NewRedis(opts ...RedisConfigOptions) (*Redis, error) {
+func NewRedisConf(opts ...RedisConfigOptions) (*Redis, error) {
 	result := &Redis{
 		RedisAddress: "127.0.0.1:6379",
 		RedisPasswd:  redisDefaultsPasswd,
@@ -15,7 +15,7 @@ func NewRedis(opts ...RedisConfigOptions) (*Redis, error) {
 	return result, nil
 }
 
-func NewRedisCluster(opts ...RedisClusterConfigOptions) (*RedisCluster, error) {
+func NewRedisClusterConf(opts ...RedisClusterConfigOptions) (*RedisCluster, error) {
 	result := &RedisCluster{
 		RedisPasswd:  redisDefaultsPasswd,
 		RedisAddress: []string{"127.0.0.1:6379"},
@@ -27,7 +27,7 @@ func NewRedisCluster(opts ...RedisClusterConfigOptions) (*RedisCluster, error) {
 	return result, nil
 }
 
-func NewRedisSentinel(opts ...RedisSentinelConfigOptions) (*RedisSentinel, error) {
+func NewRedisSentinelConf(opts ...RedisSentinelConfigOptions) (*RedisSentinel, error) {
 	result := &RedisSentinel{
 		RedisPasswd:          redisDefaultsPasswd,
 		RedisMasterName:      "test",

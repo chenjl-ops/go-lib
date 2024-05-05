@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (r *RedisCluster) NewRedisClient() *redis.ClusterClient {
+func (r *RedisCluster) InitRedisClient() *redis.ClusterClient {
 	rdb := redis.NewClusterClient(&redis.ClusterOptions{
 		//NewClient: func(opt *redis.Options) *redis.Client {
 		//	user, pass := userPassForAddr(opt.Addr)
