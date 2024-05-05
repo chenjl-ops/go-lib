@@ -1,16 +1,11 @@
 package gredis
 
-func NewRedisBase() RedisBase {
-	return RedisBase{
-		RedisPasswd: "redis",
-	}
-}
+const redisDefaultsPasswd = "redis"
 
 func NewRedis(opts ...RedisConfigOptions) (*Redis, error) {
-	redisBase := NewRedisBase()
 	result := &Redis{
 		RedisAddress: "127.0.0.1:6379",
-		RedisBase:    redisBase,
+		RedisPasswd:  redisDefaultsPasswd,
 	}
 
 	for _, opt := range opts {
@@ -21,9 +16,8 @@ func NewRedis(opts ...RedisConfigOptions) (*Redis, error) {
 }
 
 func NewRedisCluster(opts ...RedisClusterConfigOptions) (*RedisCluster, error) {
-	redisBase := NewRedisBase()
 	result := &RedisCluster{
-		RedisBase:    redisBase,
+		RedisPasswd:  redisDefaultsPasswd,
 		RedisAddress: []string{"127.0.0.1:6379"},
 	}
 
@@ -34,9 +28,8 @@ func NewRedisCluster(opts ...RedisClusterConfigOptions) (*RedisCluster, error) {
 }
 
 func NewRedisSentinel(opts ...RedisSentinelConfigOptions) (*RedisSentinel, error) {
-	redisBase := NewRedisBase()
 	result := &RedisSentinel{
-		RedisBase:            redisBase,
+		RedisPasswd:          redisDefaultsPasswd,
 		RedisMasterName:      "test",
 		RedisSentinelAddress: []string{"127.0.0.1:6379"},
 	}
@@ -47,16 +40,26 @@ func NewRedisSentinel(opts ...RedisSentinelConfigOptions) (*RedisSentinel, error
 	return result, nil
 }
 
-type RedisBaseConfigOptions func(*RedisBase)
-
 type RedisConfigOptions func(*Redis)
 
 type RedisClusterConfigOptions func(*RedisCluster)
 
 type RedisSentinelConfigOptions func(*RedisSentinel)
 
-func WithRedisBasePassword(password string) RedisBaseConfigOptions {
-	return func(r *RedisBase) {
+func WithRedisPassword(password string) RedisConfigOptions {
+	return func(r *Redis) {
+		r.RedisPasswd = password
+	}
+}
+
+func WithRedisClusterPassword(password string) RedisClusterConfigOptions {
+	return func(r *RedisCluster) {
+		r.RedisPasswd = password
+	}
+}
+
+func WithRedisSentinelPassword(password string) RedisSentinelConfigOptions {
+	return func(r *RedisSentinel) {
 		r.RedisPasswd = password
 	}
 }
