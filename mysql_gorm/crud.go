@@ -115,5 +115,9 @@ func (db *DbServer) ShowSomeByPage(paginator *Paginator, data any, requirement s
 	} else {
 		errors.Errorf("requirement %s currently not supported, please use in ['=', '<>', 'LIKE', 'IN']", requirement)
 	}
+
+	var total int64
+	db.Engine.Model(data).Count(&total)
+	paginator.Total = cast.ToInt(total)
 	return nil
 }
