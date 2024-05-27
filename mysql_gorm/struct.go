@@ -17,3 +17,10 @@ type DbServer struct {
 	Config *DB `json:"config"`
 	Engine *gorm.DB
 }
+
+type Paginator struct {
+	Total       int `json:"total" form:"total"`
+	PageSize    int `json:"pageSize" form:"pageSize"`
+	Offset      int `json:"offset" form:"offset"`
+	CurrentPage int `json:"currentPage" form:"currentPage"`
+}
