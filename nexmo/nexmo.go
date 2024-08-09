@@ -82,7 +82,7 @@ func (n *Nexmo) SendSmsMessage(from string, to string, message string) (map[stri
 // SendSMS 手机短信
 func (n *Nexmo) SendSMS(from string, to string, message string, messageType string) (map[string]interface{}, error) {
 	MessageTypes := []string{"json", "xml"}
-	if slices.Contains(MessageTypes, messageType) {
+	if !slices.Contains(MessageTypes, messageType) {
 		return nil, errors.New("message type is invalid: " + messageType)
 	}
 
