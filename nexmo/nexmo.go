@@ -66,7 +66,8 @@ func (n *Nexmo) SendSmsMessage(from string, to string, message string) (map[stri
 		return nil, err
 	}
 
-	var data map[string]interface{}
+	//var data map[string]interface{}
+	data := make(map[string]interface{})
 
 	if err := successData.validate(); err != nil {
 		data["error"] = err.Error()
@@ -83,6 +84,7 @@ func (n *Nexmo) SendSmsMessage(from string, to string, message string) (map[stri
 func (n *Nexmo) SendSMS(from string, to string, message string, messageType string) (map[string]interface{}, error) {
 	MessageTypes := []string{"json", "xml"}
 	if !slices.Contains(MessageTypes, messageType) {
+		fmt.Println("Message type not valid: ", messageType)
 		return nil, errors.New("message type is invalid: " + messageType)
 	}
 
@@ -99,23 +101,25 @@ func (n *Nexmo) SendSMS(from string, to string, message string, messageType stri
 	var smsData SmsBaseResponse
 	err := requests.Request(url, "POST", n.GetAuthHeaders(), requestData, &smsData)
 	if err != nil {
-		fmt.Println(err)
-		return nil, err
-	}
-
-	var data map[string]interface{}
-	number, err := strconv.Atoi(smsData.MessageCount)
-	if err != nil {
+		fmt.Println("request nexmo error: ")
 		fmt.Println(err)
 		return nil, err
 	} else {
-		if (number >= 1) && (smsData.Messages[0].Status == "0") {
-			data["success"] = true
+		number, err := strconv.Atoi(smsData.MessageCount)
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
 		} else {
-			data["success"] = false
-			data["error"] = smsData.Messages[0].ErrorText
+			//var data map[string]interface{}
+			data := make(map[string]interface{})
+			if (number >= 1) && (smsData.Messages[0].Status == "0") {
+				data["success"] = true
+			} else {
+				data["success"] = false
+				data["error"] = smsData.Messages[0].ErrorText
+			}
+			data["data"] = smsData
+			return data, nil
 		}
-		data["data"] = smsData
 	}
-	return data, nil
 }

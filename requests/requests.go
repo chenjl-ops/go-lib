@@ -44,12 +44,23 @@ func Request(url string, method string, headers map[string]string, requestData a
 				return err
 			}
 			defer resp.Body.Close()
-
-			jsonErr := json.NewDecoder(resp.Body).Decode(responseData)
-			if jsonErr != nil {
-				log.Error("解析失败: ", jsonErr)
-				return jsonErr
+			body, err := io.ReadAll(resp.Body)
+			if err != nil {
+				log.Error("http response error: ", err)
+				return err
 			}
+
+			err = json.Unmarshal(body, responseData)
+			if err != nil {
+				log.Error("http response error: ", err)
+				return err
+			}
+
+			//jsonErr := json.NewDecoder(resp.Body).Decode(responseData)
+			//if jsonErr != nil {
+			//	log.Error("解析失败: ", jsonErr)
+			//	return jsonErr
+			//}
 			return nil
 		}
 	} else {
