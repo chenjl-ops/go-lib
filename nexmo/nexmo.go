@@ -86,7 +86,7 @@ func (n *Nexmo) SendSMS(from string, to string, message string, messageType stri
 		return nil, errors.New("message type is invalid: " + messageType)
 	}
 
-	url := fmt.Sprintf("https://api.nexmo.com/v1/%s", messageType)
+	url := fmt.Sprintf("https://rest.nexmo.com/sms/%s", messageType)
 	requestData := map[string]string{
 		"from":       from,
 		"to":         to,
