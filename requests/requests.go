@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-var METHODS = []string{"GET", "POST", "PUT", "DELETE"}
+var METHODS = []string{"GET", "POST", "PUT", "DELETE", "PATCH", "PUT"}
 
 func Request(url string, method string, headers map[string]string, requestData any, responseData any) error {
 	//log.Info("Request start: ", url, method, headers, requestData, responseData)
