@@ -1,6 +1,6 @@
 module github.com/chenjl-ops/go-lib
 
-go 1.22
+go 1.23
 
 require (
 	github.com/madflojo/tasks v1.1.0
