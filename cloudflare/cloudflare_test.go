@@ -1,6 +1,9 @@
-package cloudflare
+package cloudflare_test
 
-import "testing"
+import (
+	"github.com/chenjl-ops/go-lib/cloudflare"
+	"testing"
+)
 
 const (
 	ApiKey       = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -9,8 +12,8 @@ const (
 )
 
 func TestDnsZone_GetZoneInfo(t *testing.T) {
-	dnsZone := &DnsZone{
-		Key: Key{
+	dnsZone := &cloudflare.DnsZone{
+		Key: cloudflare.Key{
 			ApiKey: ApiKey,
 		},
 		ZoneId: ZoneId,
@@ -24,8 +27,8 @@ func TestDnsZone_GetZoneInfo(t *testing.T) {
 }
 
 func TestDnsRecord_GetZoneRecords(t *testing.T) {
-	dnsZone := &DnsZone{
-		Key: Key{
+	dnsZone := &cloudflare.DnsZone{
+		Key: cloudflare.Key{
 			ApiKey: ApiKey,
 		},
 		ZoneId: ZoneId,
@@ -39,8 +42,8 @@ func TestDnsRecord_GetZoneRecords(t *testing.T) {
 }
 
 func TestDnsRecord_GETRecordDetails(t *testing.T) {
-	dnsRecord := &DnsRecord{
-		Zone: DnsZone{ZoneId: ZoneId, Key: Key{ApiKey: ApiKey}},
+	dnsRecord := &cloudflare.DnsRecord{
+		Zone: cloudflare.DnsZone{ZoneId: ZoneId, Key: cloudflare.Key{ApiKey: ApiKey}},
 		Id:   ZoneRecordId,
 	}
 	recordDetail, err := dnsRecord.GETRecordDetails()
