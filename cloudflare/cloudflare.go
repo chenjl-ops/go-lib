@@ -77,9 +77,9 @@ func (d *DnsRecord) UpdateZoneRecord(requestData map[string]interface{}, isOverw
 
 	var err error
 	if isOverwrite {
-		err = requests.Request(URL+"/client/v4/zones/"+d.Zone.ZoneId+"/dns_records/"+d.Id, "PATCH", headers, requestData, &data)
-	} else {
 		err = requests.Request(URL+"/client/v4/zones/"+d.Zone.ZoneId+"/dns_records/"+d.Id, "PUT", headers, requestData, &data)
+	} else {
+		err = requests.Request(URL+"/client/v4/zones/"+d.Zone.ZoneId+"/dns_records/"+d.Id, "PATCH", headers, requestData, &data)
 	}
 	if err != nil {
 		return nil, err
