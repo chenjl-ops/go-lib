@@ -18,7 +18,7 @@ func NewDbServer(conf *DB, engine *gorm.DB) (*DbServer, error) {
 
 // NewConnect ...
 func (db *DB) NewConnect() (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=True&loc=Local", db.UserName, db.Password, db.Host, db.Port, db.DBName, db.Charset)
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&collation=%s&parseTime=True&loc=Local", db.UserName, db.Password, db.Host, db.Port, db.DBName, db.Charset, db.Collation)
 	gormEngine, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
@@ -43,4 +43,20 @@ func (db *DB) NewConnect() (*gorm.DB, error) {
 	}
 
 	return gormEngine, nil
+}
+
+// AutoMigrate ...
+func (db *DB) AutoMigrate(model interface{}) error {
+	engine, err := db.NewConnect()
+	if err != nil {
+		log.Error("Failed to connect to database: ", err)
+		return err
+	}
+	err = engine.AutoMigrate(model)
+	if err != nil {
+		log.Error("Failed to auto migrate: ", err)
+		return err
+	}
+	fmt.Println("Database migrated successfully")
+	return nil
 }
