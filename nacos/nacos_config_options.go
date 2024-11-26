@@ -10,11 +10,8 @@ const (
 	runEnvKey    = "RUNTIME_ENV"
 	runGroupKey  = "RUNTIME_GROUP"
 	runTenantKey = "RUNTIME_TENANT"
-	// runGROUPIdKey = "RUNTIME_GROUPID"
-	appNameKey = "RUNTIME_APP_NAME"
+	appNameKey   = "RUNTIME_APP_NAME"
 )
-
-//var Config *Specification
 
 // GetEnv 获取当前运行环境
 func GetEnv(name string) string {
@@ -76,7 +73,6 @@ func GetNacosPath(path string) string {
 
 func GetNacosUrl(url string) string {
 	//url := fmt.Sprintf("http://configserver-%s.xxx.cloud", env)
-	//url := fmt.Sprintf("http://kyc-prod-1-b349198798d93d66.elb.ap-southeast-1.amazonaws.com:8848/data/nacos")
 	if url != "" {
 		return url
 	}
@@ -84,34 +80,13 @@ func GetNacosUrl(url string) string {
 }
 
 func NewNacosConfig(opts ...ClientOption) (nacosConf *Nacos, err error) {
-	appName := GetAppName("")
-	if appName == "" {
-		return nil, errors.Errorf("Env appName Has Empty")
-	}
-	env := GetEnv("")
-	if env == "" {
-		return nil, errors.Errorf("Env env Has Empty")
-	}
-	tenant := GetTenant("")
-	if tenant == "" {
-		return nil, errors.Errorf("Env tenant Has Empty")
-	}
-	group := GetGroup("")
-	if group == "" {
-		return nil, errors.Errorf("Env group Has Empty")
-	}
-	nacosUrl := GetNacosUrl("")
-	path := GetNacosPath("")
-	if path == "" {
-		return nil, errors.Errorf("Env path Has Empty")
-	}
 	nacosConf = &Nacos{
-		Tenant:   tenant,
-		Group:    group,
-		DataId:   appName,
-		Url:      nacosUrl,
+		Tenant:   "",
+		Group:    "",
+		DataId:   "",
+		Url:      "",
 		Port:     8848,
-		Path:     path,
+		Path:     "/nacos",
 		LogDir:   "/tmp/nacos/log",
 		CacheDir: "/tmp/nacos/cache",
 		LogLevel: "debug",
@@ -120,6 +95,47 @@ func NewNacosConfig(opts ...ClientOption) (nacosConf *Nacos, err error) {
 	for _, opt := range opts {
 		opt(nacosConf)
 	}
+
+	appName := GetAppName("")
+	if appName == "" {
+		return nil, errors.Errorf("Env appName Has Empty")
+	} else {
+		nacosConf.DataId = appName
+	}
+
+	//env := GetEnv("")
+	//if env == "" {
+	//	return nil, errors.Errorf("Env env Has Empty")
+	//}
+
+	tenant := GetTenant("")
+	if tenant == "" {
+		return nil, errors.Errorf("Env tenant Has Empty")
+	} else {
+		nacosConf.Tenant = tenant
+	}
+
+	group := GetGroup("")
+	if group == "" {
+		return nil, errors.Errorf("Group Has Empty")
+	} else {
+		nacosConf.Group = group
+	}
+
+	nacosUrl := GetNacosUrl("")
+	if nacosUrl == "" {
+		return nil, errors.Errorf("NacosUrl Has Empty")
+	} else {
+		nacosConf.Url = nacosUrl
+	}
+
+	path := GetNacosPath("")
+	if path == "" {
+		return nil, errors.Errorf("Env path Has Empty")
+	} else {
+		nacosConf.Path = path
+	}
+
 	return nacosConf, nil
 }
 

@@ -8,9 +8,9 @@ import (
 	"github.com/nacos-group/nacos-sdk-go/common/constant"
 	"github.com/nacos-group/nacos-sdk-go/vo"
 	"github.com/pkg/errors"
-	"strings"
 )
 
+// NewNacos ...
 func NewNacos() (nacos *Nacos, err error) {
 	appName := GetAppName("")
 	if appName == "" {
@@ -81,53 +81,7 @@ func (nacos *Nacos) ReadRemoteConfig(data any) error {
 }
 
 func readRemoteConfigCustom(input *Nacos, value any) error {
-	config, err := NewNacos()
-	if err != nil {
-		return err
-	}
-
-	if input != nil {
-		if input.Url != "" {
-			config.Url = input.Url
-		}
-		if input.Port != 0 {
-			config.Port = input.Port
-		}
-		if input.Path != "" {
-			config.Path = input.Path
-		}
-		if input.LogDir != "" {
-			config.LogDir = input.LogDir
-		}
-		if input.CacheDir != "" {
-			config.CacheDir = input.CacheDir
-		}
-		if input.LogLevel != "" {
-			config.LogLevel = input.LogLevel
-		}
-		if input.Group != "" {
-			config.Group = input.Group
-		}
-		if input.DataId != "" {
-			config.DataId = input.DataId
-		}
-		if input.Tenant != "" {
-			config.Tenant = input.Tenant
-		}
-	}
-
-	// 判断logDir cacheDir logLevel是否为空
-	if strings.TrimSpace(config.LogDir) == "" {
-		config.LogDir = "/tmp/nacos/log"
-	}
-	if strings.TrimSpace(config.CacheDir) == "" {
-		config.CacheDir = "/tmp/nacos/cache"
-	}
-	if strings.TrimSpace(config.LogLevel) == "" {
-		config.LogLevel = "debug"
-	}
-
-	client, err := config.NewNacosBySdk()
+	client, err := input.NewNacosBySdk()
 	if err != nil {
 		return err
 	}
@@ -135,8 +89,8 @@ func readRemoteConfigCustom(input *Nacos, value any) error {
 	//fmt.Println("config: ", config)
 	//fmt.Println("Get Config Start: ===============")
 	content, err := client.GetConfig(vo.ConfigParam{
-		DataId: config.DataId,
-		Group:  config.Group,
+		DataId: input.DataId,
+		Group:  input.Group,
 	})
 	if err != nil {
 		return err
