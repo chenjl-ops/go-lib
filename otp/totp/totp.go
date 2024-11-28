@@ -14,6 +14,7 @@ import (
 
 var b32NoPadding = base32.StdEncoding.WithPadding(base32.NoPadding)
 
+// Validate ...
 func Validate(passcode string, secret string) bool {
 	rv, _ := ValidateCustom(passcode, secret, time.Now().UTC(), ValidateOpts{
 		Period:    30,
@@ -55,6 +56,7 @@ func ValidateCustom(passcode string, secret string, t time.Time, opts ValidateOp
 	return false, nil
 }
 
+// GenerateCode ...
 func GenerateCode(secret string, t time.Time) (string, error) {
 	return GenerateCodeCustom(secret, t, ValidateOpts{
 		Period:    30,
@@ -64,6 +66,7 @@ func GenerateCode(secret string, t time.Time) (string, error) {
 	})
 }
 
+// GenerateCodeCustom ...
 func GenerateCodeCustom(secret string, t time.Time, opts ValidateOpts) (passcode string, err error) {
 	if opts.Period == 0 {
 		opts.Period = 30

@@ -18,6 +18,7 @@ const debug = false
 
 var b32NoPadding = base32.StdEncoding.WithPadding(base32.NoPadding)
 
+// Validate ...
 func Validate(passcode string, counter uint64, secret string) bool {
 	rv, _ := ValidateCustom(passcode, counter, secret, ValidateOpts{
 		Digits:    otp.DigitsSix,
@@ -26,6 +27,7 @@ func Validate(passcode string, counter uint64, secret string) bool {
 	return rv
 }
 
+// ValidateCustom ...
 func ValidateCustom(passcode string, counter uint64, secret string, opts ValidateOpts) (bool, error) {
 	passcode = strings.TrimSpace(passcode)
 
@@ -44,6 +46,7 @@ func ValidateCustom(passcode string, counter uint64, secret string, opts Validat
 	return false, nil
 }
 
+// GenerateCode ...
 func GenerateCode(secret string, counter uint64) (string, error) {
 	return GenerateCodeCustom(secret, counter, ValidateOpts{
 		Digits:    otp.DigitsSix,
@@ -51,6 +54,7 @@ func GenerateCode(secret string, counter uint64) (string, error) {
 	})
 }
 
+// GenerateCodeCustom ...
 func GenerateCodeCustom(secret string, counter uint64, opts ValidateOpts) (passcode string, err error) {
 	if opts.Digits == 0 {
 		opts.Digits = otp.DigitsSix
@@ -115,6 +119,7 @@ func GenerateCodeCustom(secret string, counter uint64, opts ValidateOpts) (passc
 	return
 }
 
+// Generate ...
 func Generate(opts GenerateOpts) (*otp.Key, error) {
 	if opts.Issuer == "" {
 		return nil, otp.ErrGenerateMissingIssuer
