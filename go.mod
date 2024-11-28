@@ -3,6 +3,7 @@ module github.com/chenjl-ops/go-lib
 go 1.23
 
 require (
+	github.com/boombuler/barcode v1.0.2
 	github.com/madflojo/tasks v1.2.0
 	github.com/nacos-group/nacos-sdk-go v1.1.4
 	github.com/pkg/errors v0.9.1
