@@ -2,7 +2,7 @@ package tg
 
 import (
 	"fmt"
-	"go-lib/requests"
+	"github.com/chenjl-ops/go-lib/requests"
 )
 
 func NewTgConf(token string, chatId string, text string, replyToMessageId int) (conf *tgConf, err error) {
