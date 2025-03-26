@@ -1,6 +1,7 @@
 package rsa
 
 import (
+	"crypto"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/sha256"
@@ -114,7 +115,7 @@ func LoadPublicKey(path string) (*rsa.PublicKey, error) {
 // SignRSA 通过私钥签名
 func SignRSA(message string, privateKey *rsa.PrivateKey) (string, error) {
 	hash := sha256.Sum256([]byte(message))
-	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, 0, hash[:])
+	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hash[:])
 	if err != nil {
 		return "", err
 	}
@@ -126,6 +127,6 @@ func SignRSA(message string, privateKey *rsa.PrivateKey) (string, error) {
 func VerifyRSA(publicKey *rsa.PublicKey, message string, signature string) bool {
 	hash := sha256.Sum256([]byte(message))
 	signBytes, _ := base64.StdEncoding.DecodeString(signature)
-	err := rsa.VerifyPKCS1v15(publicKey, 0, hash[:], signBytes)
+	err := rsa.VerifyPKCS1v15(publicKey, crypto.SHA256, hash[:], signBytes)
 	return err == nil
 }
