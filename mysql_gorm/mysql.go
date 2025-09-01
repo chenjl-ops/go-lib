@@ -2,6 +2,7 @@ package mysql_gorm
 
 import (
 	"fmt"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"

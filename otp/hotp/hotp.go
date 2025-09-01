@@ -7,11 +7,12 @@ import (
 	"encoding/base32"
 	"encoding/binary"
 	"fmt"
-	"github.com/chenjl-ops/go-lib/otp"
-	"github.com/chenjl-ops/go-lib/otp/internal"
 	"math"
 	"net/url"
 	"strings"
+
+	"github.com/chenjl-ops/go-lib/otp"
+	"github.com/chenjl-ops/go-lib/otp/internal"
 )
 
 const debug = false

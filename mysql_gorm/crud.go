@@ -2,10 +2,11 @@ package mysql_gorm
 
 import (
 	"fmt"
+	"slices"
+
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
-	"slices"
 )
 
 var REQUIREMENTS = []string{"=", "<>", "LIKE", "IN"}
@@ -52,7 +53,18 @@ func (db *DbServer) ShowSome(data any, requirement string, key string, value str
 			}
 		}
 	} else {
-		errors.Errorf("requirement %s currently not supported, please use in ['=', '<>', 'LIKE', 'IN']", requirement)
+		return errors.Errorf("requirement %s currently not supported, please use in ['=', '<>', 'LIKE', 'IN']", requirement)
+	}
+	return nil
+}
+
+// ShowSomeByMap 根据map查询数据
+func (db *DbServer) ShowSomeByMap(data any, filters map[string]any) error {
+	result := db.Engine.Where(filters).Find(data)
+	if result.Error != nil {
+		log.Error("Get data: ", result.Error)
+		fmt.Println("get data error: ", result.Error)
+		return result.Error
 	}
 	return nil
 }
@@ -113,7 +125,7 @@ func (db *DbServer) ShowSomeByPage(paginator *Paginator, data any, requirement s
 			}
 		}
 	} else {
-		errors.Errorf("requirement %s currently not supported, please use in ['=', '<>', 'LIKE', 'IN']", requirement)
+		return errors.Errorf("requirement %s currently not supported, please use in ['=', '<>', 'LIKE', 'IN']", requirement)
 	}
 
 	var total int64

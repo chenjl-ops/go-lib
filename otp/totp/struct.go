@@ -1,8 +1,9 @@
 package totp
 
 import (
-	"github.com/chenjl-ops/go-lib/otp"
 	"io"
+
+	"github.com/chenjl-ops/go-lib/otp"
 )
 
 // ValidateOpts provides options for ValidateCustom().

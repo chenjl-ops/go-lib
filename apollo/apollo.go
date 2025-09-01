@@ -2,10 +2,11 @@ package apollo
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/pkg/errors"
 	remote "github.com/shima-park/agollo/viper-remote"
 	"github.com/spf13/viper"
-	"os"
 )
 
 const (

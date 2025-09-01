@@ -1,11 +1,12 @@
 package nanoid_test
 
 import (
-	"github.com/chenjl-ops/go-lib/nanoid"
-	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
 	"unicode/utf8"
+
+	"github.com/chenjl-ops/go-lib/nanoid"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGenerate(t *testing.T) {

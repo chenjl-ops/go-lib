@@ -12,13 +12,14 @@ import (
 	"crypto/sha512"
 	"errors"
 	"fmt"
-	"github.com/boombuler/barcode"
-	"github.com/boombuler/barcode/qr"
 	"hash"
 	"image"
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/boombuler/barcode"
+	"github.com/boombuler/barcode/qr"
 )
 
 type Digits int

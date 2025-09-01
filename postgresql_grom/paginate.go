@@ -1,4 +1,4 @@
-package mysql_gorm
+package postgresql_grom
 
 import (
 	"errors"

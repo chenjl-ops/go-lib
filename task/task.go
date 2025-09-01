@@ -2,10 +2,11 @@ package task
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/chenjl-ops/go-lib/requests"
 	"github.com/madflojo/tasks"
 	log "github.com/sirupsen/logrus"
-	"time"
 )
 
 func NewTask() *Scheduler {

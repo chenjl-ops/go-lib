@@ -2,8 +2,9 @@ package nacos
 
 import (
 	"fmt"
-	"github.com/pkg/errors"
 	"os"
+
+	"github.com/pkg/errors"
 )
 
 const (

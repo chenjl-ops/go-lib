@@ -1,8 +1,9 @@
 package gredis
 
 import (
-	"github.com/redis/go-redis/v9"
 	"time"
+
+	"github.com/redis/go-redis/v9"
 )
 
 type Client interface {

@@ -3,13 +3,14 @@ package totp
 import (
 	"crypto/rand"
 	"encoding/base32"
-	"github.com/chenjl-ops/go-lib/otp"
-	"github.com/chenjl-ops/go-lib/otp/hotp"
-	"github.com/chenjl-ops/go-lib/otp/internal"
 	"math"
 	"net/url"
 	"strconv"
 	"time"
+
+	"github.com/chenjl-ops/go-lib/otp"
+	"github.com/chenjl-ops/go-lib/otp/hotp"
+	"github.com/chenjl-ops/go-lib/otp/internal"
 )
 
 var b32NoPadding = base32.StdEncoding.WithPadding(base32.NoPadding)

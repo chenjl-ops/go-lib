@@ -1,8 +1,9 @@
 package cloudflare_test
 
 import (
-	"github.com/chenjl-ops/go-lib/cloudflare"
 	"testing"
+
+	"github.com/chenjl-ops/go-lib/cloudflare"
 )
 
 const (

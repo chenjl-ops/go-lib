@@ -4,9 +4,10 @@ import (
 	"encoding/base64"
 	"errors"
 	"fmt"
-	"github.com/chenjl-ops/go-lib/requests"
 	"slices"
 	"strconv"
+
+	"github.com/chenjl-ops/go-lib/requests"
 )
 
 func New(apiKey string, apiSecret string) *Nexmo {
