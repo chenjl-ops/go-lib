@@ -7,6 +7,8 @@ import (
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 var REQUIREMENTS = []string{"=", "<>", "LIKE", "IN"}
@@ -20,6 +22,56 @@ func (db *DbServer) Insert(data any) error {
 		return result.Error
 	}
 	return nil
+}
+
+// InsertBatch 批量插入数据
+func InsertBatch[T any](db *DbServer, data []T, batchSize int, isTransaction bool) (*BatchInsertResult[T], error) {
+	result := &BatchInsertResult[T]{}
+
+	if batchSize <= 0 || batchSize > 500 {
+		batchSize = 500
+	}
+
+	if isTransaction {
+		err := db.Engine.Transaction(func(tx *gorm.DB) error {
+			return tx.CreateInBatches(data, batchSize).Error
+		})
+
+		if err != nil {
+			log.Error("InsertBatch data: ", err)
+			fmt.Println("insert batch data error: ", err)
+			return nil, err
+		}
+		result.Success = append(result.Success, data...)
+		return result, nil
+	}
+	for i := 0; i < len(data); i += batchSize {
+		end := min(i+batchSize, len(data))
+		batch := data[i:end]
+
+		tx := db.Engine.Clauses(clause.OnConflict{DoNothing: true}).Create(&batch)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
+
+		if tx.RowsAffected < int64(len(batch)) {
+			for _, item := range batch {
+				err := db.Engine.Create(&item).Error
+				if err != nil {
+					result.Failed = append(result.Failed, InsertError[T]{
+						Data: item,
+						Err:  err,
+						Msg:  fmt.Sprintf("Insert data error: %s", err.Error()),
+					})
+				} else {
+					result.Success = append(result.Success, item)
+				}
+			}
+		} else {
+			result.Success = append(result.Success, batch...)
+		}
+	}
+	return result, nil
 }
 
 // ShowAll 查询所有数据  select * from data

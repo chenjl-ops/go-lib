@@ -25,3 +25,14 @@ type Paginator struct {
 	Offset      int `json:"offset" form:"offset"`
 	CurrentPage int `json:"currentPage" form:"currentPage"`
 }
+
+type BatchInsertResult[T any] struct {
+	Success []T              `json:"success"`
+	Failed  []InsertError[T] `json:"failed"`
+}
+
+type InsertError[T any] struct {
+	Data T      `json:"data"`
+	Err  error  `json:"-"`
+	Msg  string `json:"msg"`
+}
