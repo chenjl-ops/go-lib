@@ -86,36 +86,37 @@ func ValidateNacosConf(nacosConf *Nacos) error {
 	appName := GetAppName(nacosConf.DataId)
 	if appName == "" {
 		return errors.Errorf("Env appName Has Empty")
-	} else {
-		nacosConf.DataId = appName
 	}
+
+	nacosConf.DataId = appName
 
 	tenant := GetTenant(nacosConf.Tenant)
 	if tenant == "" {
 		return errors.Errorf("Env tenant Has Empty")
-	} else {
-		nacosConf.Tenant = tenant
 	}
+
+	nacosConf.Tenant = tenant
 
 	group := GetGroup(nacosConf.Group)
 	if group == "" {
 		return errors.Errorf("Group Has Empty")
-	} else {
-		nacosConf.Group = group
 	}
+
+	nacosConf.Group = group
 
 	nacosUrl := GetNacosUrl(nacosConf.Url)
 	if nacosUrl == "" {
 		return errors.Errorf("NacosUrl Has Empty")
-	} else {
-		nacosConf.Url = nacosUrl
 	}
+
+	nacosConf.Url = nacosUrl
 
 	path := GetNacosPath(nacosConf.Path)
 	if path == "" {
 		return errors.Errorf("Env path Has Empty")
-	} else {
-		nacosConf.Path = path
 	}
+
+	nacosConf.Path = path
+
 	return nil
 }

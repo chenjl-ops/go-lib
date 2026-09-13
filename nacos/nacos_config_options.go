@@ -12,6 +12,8 @@ func NewNacosConfig(opts ...ClientOption) (nacosConf *Nacos, err error) {
 		LogDir:   "/tmp/nacos/log",
 		CacheDir: "/tmp/nacos/cache",
 		LogLevel: "debug",
+		UserName: "",
+		Password: "",
 	}
 
 	for _, opt := range opts {
@@ -68,5 +70,19 @@ func WithPort(port uint64) ClientOption {
 func WithPath(path string) ClientOption {
 	return func(nacosConf *Nacos) {
 		nacosConf.Path = path
+	}
+}
+
+// WithUserName ...
+func WithUserName(userName string) ClientOption {
+	return func(nacosConf *Nacos) {
+		nacosConf.UserName = userName
+	}
+}
+
+// WithPassword ...
+func WithPassword(password string) ClientOption {
+	return func(nacosConf *Nacos) {
+		nacosConf.Password = password
 	}
 }

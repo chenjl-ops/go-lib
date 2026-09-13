@@ -10,4 +10,6 @@ type Nacos struct {
 	Tenant   string
 	DataId   string
 	Group    string
+	UserName string
+	Password string
 }

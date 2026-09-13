@@ -44,6 +44,8 @@ func NewNacos() (nacos *Nacos, err error) {
 		LogDir:   "/tmp/nacos/log",
 		CacheDir: "/tmp/nacos/cache",
 		LogLevel: "debug",
+		UserName: "",
+		Password: "",
 	}
 	return nacos, nil
 }
@@ -59,6 +61,8 @@ func (nacos *Nacos) GetNacosConfigs() (nacosClient *constant.ClientConfig, nacos
 		constant.WithCacheDir(nacos.CacheDir),
 		constant.WithLogLevel(nacos.LogLevel),
 		//constant.WithUpdateCacheWhenEmpty(true),
+		constant.WithUsername(nacos.UserName),
+		constant.WithPassword(nacos.Password),
 	)
 
 	return &nacosClientConfigs, &nacosServerConfigs, nil
