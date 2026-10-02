@@ -14,6 +14,7 @@ func NewNacosConfig(opts ...ClientOption) (nacosConf *Nacos, err error) {
 		LogLevel: "debug",
 		UserName: "",
 		Password: "",
+		Scheme:   "http",
 	}
 
 	for _, opt := range opts {
@@ -84,5 +85,12 @@ func WithUserName(userName string) ClientOption {
 func WithPassword(password string) ClientOption {
 	return func(nacosConf *Nacos) {
 		nacosConf.Password = password
+	}
+}
+
+// WithScheme ...
+func WithScheme(scheme string) ClientOption {
+	return func(nacosConf *Nacos) {
+		nacosConf.Scheme = scheme
 	}
 }

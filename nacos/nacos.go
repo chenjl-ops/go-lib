@@ -46,12 +46,18 @@ func NewNacos() (nacos *Nacos, err error) {
 		LogLevel: "debug",
 		UserName: "",
 		Password: "",
+		Scheme:   constant.DEFAULT_SERVER_SCHEME,
 	}
 	return nacos, nil
 }
 
 func (nacos *Nacos) GetNacosConfigs() (nacosClient *constant.ClientConfig, nacosServer *constant.ServerConfig, err error) {
-	nacosServerConfigs := *constant.NewServerConfig(nacos.Url, nacos.Port, constant.WithContextPath(nacos.Path))
+	nacosServerConfigs := *constant.NewServerConfig(
+		nacos.Url,
+		nacos.Port,
+		constant.WithContextPath(nacos.Path),
+		constant.WithScheme(nacos.Scheme),
+	)
 
 	nacosClientConfigs := *constant.NewClientConfig(
 		constant.WithNamespaceId(""),
